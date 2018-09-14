@@ -95,12 +95,8 @@ public class RecursiveProcess extends RecursiveAction{
                     } 
                 }  
             }
-            //Calculate average
-            
-            
-            
-            
-            
+            //Calculate, set average
+            TreetopSunExposure.setAverage(Math.round(workload[i][4]), avg/area);   
         }
         
         
