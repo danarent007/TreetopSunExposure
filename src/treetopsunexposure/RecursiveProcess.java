@@ -5,6 +5,7 @@
  */
 package treetopsunexposure;
 
+import java.util.ArrayList;
 import java.util.concurrent.RecursiveAction;
 
 /**
@@ -13,14 +14,22 @@ import java.util.concurrent.RecursiveAction;
  */
 public class RecursiveProcess extends RecursiveAction{
 
-    private 
-              
-    
+    //Defined workload var, threshold for workload cutoff
+    private String[][] workload;
+    private static final int THRESHOLD = 10;
+   
+    //Constructor for method
+    public RecursiveProcess(String[][] workload){
+        this.workload = workload;
+    }
     
     @Override
     protected void compute() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        
+       
+                
+                
+                
     }
     
 }
