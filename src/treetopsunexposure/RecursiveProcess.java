@@ -34,7 +34,7 @@ public class RecursiveProcess extends RecursiveAction{
             ForkJoinTask.invokeAll(splitTasks());
         }
         else{
-            //TODO Process
+            process(workload);
         }                 
     }
     
@@ -58,7 +58,6 @@ public class RecursiveProcess extends RecursiveAction{
         {
             arrayOne[i] = workload[i];
         }
-        
         Float[][] arrayTwo = new Float[workloadLength-splitPoint][elements];
         int b = 0;
         for (int i = splitPoint; i < workloadLength; i++) 
@@ -77,10 +76,12 @@ public class RecursiveProcess extends RecursiveAction{
     //Calculate 
     private void process(Float[][] workload){
         
+        
         //Iterate through workload items
-        Float total = null;
+        Float total = (float)0;
         for (int i = 0; i < workload.length; i++) 
         {
+            total = (float)0;
             //Value for counting additions
             int area = 0;
             //Get integer values from current tree
@@ -95,6 +96,7 @@ public class RecursiveProcess extends RecursiveAction{
                     if (x < TreetopSunExposure.terrainX && y < TreetopSunExposure.terrainY) 
                     {
                         //Add to average
+                        
                         total += TreetopSunExposure.terrain[x][y]; 
                         //Incriment area totals
                         area ++;
@@ -104,7 +106,6 @@ public class RecursiveProcess extends RecursiveAction{
             }
             //Calculate, set average
             TreetopSunExposure.totalAverages += total/area;
-            System.out.println("WL: " + workload[i][4]);
             TreetopSunExposure.setTotal(Math.round(workload[i][4]), total);   
         }
         

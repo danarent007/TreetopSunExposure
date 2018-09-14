@@ -74,15 +74,27 @@ public class TreetopSunExposure {
             // Extent
             trees[i][2] = Float.parseFloat(tmp1[2]);
             //Avg.
-            trees[i][3] = null;
+            trees[i][3] = (float)0;
             //Pos
             trees[i][4] = (float)i;
         }
+        
+        System.out.println("Trees: " + trees.length);
+        
+        /*
+        System.out.println("Test Tree:" + trees[60][0]);
+        System.out.println("Test Tree:" + trees[60][1]);
+        System.out.println("Test Tree:" + trees[60][2]);
+        System.out.println("Test Tree:" + trees[60][3]);
+        System.out.println("Test Tree:" + trees[60][4]);
         System.out.println("Read tree values!");
         System.out.println("Trees: " + trees.length);
         System.out.println("Starting parallel processing...");
         
+        */
+        
         //Start parallel processing
+        
         forkJoinPool.invoke(new RecursiveProcess(trees));
         
         System.out.println("Done parallel processing!");
