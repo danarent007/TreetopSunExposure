@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 
 /**
  *
@@ -24,6 +26,7 @@ public class TreetopSunExposure {
     static String fileName = "sample_input.txt";
     static int terrainX;
     static int terrainY;
+    static final ForkJoinPool forkJoinPool = new ForkJoinPool();
     
     
     
@@ -35,11 +38,15 @@ public class TreetopSunExposure {
  
         terrainX = terrainSize[0];
         terrainY = terrainSize[1];
-      
+        System.out.println("Terrain X: " + terrainX);
+        System.out.println("Terrain Y: " + terrainY);
+
+        
         //Define size of Terrain array
         terrain = new Float[terrainSize[0]][terrainSize[1]];
         String[] terrainValTmp = br.readLine().split(" ");
         //Read values into terrain
+        System.out.println("Reading terrain values...");
         int valCount = 0;
         for (int x = 0; x < terrainSize[0]; x++){
             for (int y = 0; y < terrainSize[1]; y++) {
@@ -47,11 +54,12 @@ public class TreetopSunExposure {
                 valCount ++;
             }
         }
+        System.out.println("Read terrain values!");
         
         //Define size of trees array
         int treesSize = Integer.parseInt(br.readLine());
-        trees = new Float[treesSize][4];
-        
+        trees = new Float[treesSize][5];
+        System.out.println("Reading tree values...");
         for (int i = 0; i < treesSize; i++) 
         {
             String[] tmp1 = br.readLine().split(" ");
@@ -66,12 +74,21 @@ public class TreetopSunExposure {
             //Pos
             trees[i][4] = (float)i;
         }
+        System.out.println("Read tree values!");
+        System.out.println("Trees: " + trees);
+        System.out.println("Starting parallel processing...");
+        
+        forkJoinPool.invoke(new RecursiveProcess(trees));
+        
+        System.out.println("Done parallel processing!");
         
     }
     
     public static void setAverage(int index, Float average){
         trees[index][3] = average;
     }
+    
+    
     
     
     
