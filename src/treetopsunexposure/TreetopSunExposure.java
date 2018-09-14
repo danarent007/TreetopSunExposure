@@ -22,6 +22,8 @@ public class TreetopSunExposure {
     protected static Float[][] trees;
     static Float[][] terrain;
     static String fileName = "sample_input.txt";
+    static int terrainX;
+    static int terrainY;
     
     
     
@@ -31,6 +33,8 @@ public class TreetopSunExposure {
         String[] tmp = br.readLine().split(" ");
         int[] terrainSize = {Integer.parseInt(tmp[0]),Integer.parseInt(tmp[1])};
  
+        terrainX = terrainSize[0];
+        terrainY = terrainSize[1];
       
         //Define size of Terrain array
         terrain = new Float[terrainSize[0]][terrainSize[1]];
@@ -59,8 +63,14 @@ public class TreetopSunExposure {
             trees[i][2] = Float.parseFloat(tmp1[2]);
             //Avg.
             trees[i][3] = null;
+            //Pos
+            trees[i][4] = (float)i;
         }
         
+    }
+    
+    public static void setAverage(int index, Float average){
+        trees[index][3] = average;
     }
     
     
