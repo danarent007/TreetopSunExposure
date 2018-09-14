@@ -60,9 +60,11 @@ public class RecursiveProcess extends RecursiveAction{
         }
         
         Float[][] arrayTwo = new Float[workloadLength-splitPoint][elements];
+        int b = 0;
         for (int i = splitPoint; i < workloadLength; i++) 
         {
-            arrayTwo[i] = workload[i];
+            arrayTwo[b] = workload[i]; //PROBLEM!
+            b++;
         }
         
         //Add net subtasks to list

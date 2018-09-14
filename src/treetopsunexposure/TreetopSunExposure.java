@@ -75,7 +75,7 @@ public class TreetopSunExposure {
             trees[i][4] = (float)i;
         }
         System.out.println("Read tree values!");
-        System.out.println("Trees: " + trees);
+        System.out.println("Trees: " + trees.length);
         System.out.println("Starting parallel processing...");
         
         forkJoinPool.invoke(new RecursiveProcess(trees));
