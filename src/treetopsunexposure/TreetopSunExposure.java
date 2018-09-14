@@ -8,7 +8,9 @@ package treetopsunexposure;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 
@@ -23,16 +25,18 @@ public class TreetopSunExposure {
      */
     protected static Float[][] trees;
     static Float[][] terrain;
-    static String fileName = "sample_input.txt";
+    static String INPUT_FILE = "sample_input.txt";
+    static String OUTPUT_FILE = "output.txt";
     static int terrainX;
     static int terrainY;
     static final ForkJoinPool forkJoinPool = new ForkJoinPool();
+    static Float totalAverages = 0.00000f;
     
     
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //Read setup params
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        BufferedReader br = new BufferedReader(new FileReader(INPUT_FILE));
         String[] tmp = br.readLine().split(" ");
         int[] terrainSize = {Integer.parseInt(tmp[0]),Integer.parseInt(tmp[1])};
  
@@ -78,14 +82,36 @@ public class TreetopSunExposure {
         System.out.println("Trees: " + trees.length);
         System.out.println("Starting parallel processing...");
         
+        //Start parallel processing
         forkJoinPool.invoke(new RecursiveProcess(trees));
         
         System.out.println("Done parallel processing!");
         
+        System.out.println("Average: " + totalAverages/trees.length);
+        
+        //Write to file
+        /* Format:
+        Avg. per tree
+        No. Trees
+        Total tree x
+        Total tree y...
+        */
+        System.out.println("Started printing...");
+        PrintWriter pw = new PrintWriter(new FileWriter(OUTPUT_FILE));
+        System.out.println("" + totalAverages);
+        pw.println("" + totalAverages/trees.length);
+        pw.println("" + trees.length);
+        
+        for (int i = 0; i < trees.length; i++) 
+        {
+            pw.println(trees[i][3]);
+        }
+        pw.close();
+        System.out.println("Finished printing!");
     }
     
-    public static void setAverage(int index, Float average){
-        trees[index][3] = average;
+    public static void setTotal(int index, Float total){
+        trees[index][3] = total;
     }
     
     

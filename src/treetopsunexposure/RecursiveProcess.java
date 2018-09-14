@@ -46,10 +46,10 @@ public class RecursiveProcess extends RecursiveAction{
         //Split array at half-way point
         int workloadLength = workload.length;
         int splitPoint = (int)Math.floor(workloadLength/2);
-        System.out.println("");
-        System.out.println("Split Point: " + splitPoint);
-        System.out.println("Workload Length: " + workloadLength);
-        System.out.println("");
+        //System.out.println("");
+        //System.out.println("Split Point: " + splitPoint);
+        //System.out.println("Workload Length: " + workloadLength);
+        //System.out.println("");
         int elements = workload[0].length;
         //Copy elements
         Float[][] arrayOne = new Float[splitPoint][elements];
@@ -76,8 +76,9 @@ public class RecursiveProcess extends RecursiveAction{
     
     //Calculate 
     private void process(Float[][] workload){
+        
         //Iterate through workload items
-        Float avg = null;
+        Float total = null;
         for (int i = 0; i < workload.length; i++) 
         {
             //Value for counting additions
@@ -94,7 +95,7 @@ public class RecursiveProcess extends RecursiveAction{
                     if (x < TreetopSunExposure.terrainX && y < TreetopSunExposure.terrainY) 
                     {
                         //Add to average
-                        avg += TreetopSunExposure.terrain[x][y]; 
+                        total += TreetopSunExposure.terrain[x][y]; 
                         //Incriment area totals
                         area ++;
   
@@ -102,7 +103,9 @@ public class RecursiveProcess extends RecursiveAction{
                 }  
             }
             //Calculate, set average
-            TreetopSunExposure.setAverage(Math.round(workload[i][4]), avg/area);   
+            TreetopSunExposure.totalAverages += total/area;
+            System.out.println("WL: " + workload[i][4]);
+            TreetopSunExposure.setTotal(Math.round(workload[i][4]), total);   
         }
         
         
