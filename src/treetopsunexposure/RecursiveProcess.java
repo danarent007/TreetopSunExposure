@@ -46,6 +46,10 @@ public class RecursiveProcess extends RecursiveAction{
         //Split array at half-way point
         int workloadLength = workload.length;
         int splitPoint = (int)Math.floor(workloadLength/2);
+        System.out.println("");
+        System.out.println("Split Point: " + splitPoint);
+        System.out.println("Workload Length: " + workloadLength);
+        System.out.println("");
         int elements = workload[0].length;
         //Copy elements
         Float[][] arrayOne = new Float[splitPoint][elements];
