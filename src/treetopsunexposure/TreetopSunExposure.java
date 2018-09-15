@@ -24,14 +24,16 @@ public class TreetopSunExposure {
      * @param args the command line arguments
      */
     protected static Float[][] trees;
-    static Float[][] terrain;
-    static String INPUT_FILE = "sample_input.txt";
-    static String OUTPUT_FILE = "output.txt";
-    static int terrainX;
-    static int terrainY;
-    static final ForkJoinPool forkJoinPool = new ForkJoinPool();
-    static Float total = 0.00000f;
+    protected static Float[][] terrain;
+    protected static String INPUT_FILE = "sample_input.txt";
+    protected static String OUTPUT_FILE = "output.txt";
+    protected static int terrainX;
+    protected static int terrainY;
+    protected static final ForkJoinPool forkJoinPool = new ForkJoinPool();
+    protected static Float total = 0.00000f;
     protected static long time;
+    protected static int THRESHOLD = 10;
+    protected static int REP = 1;
     
     
     
@@ -42,6 +44,18 @@ public class TreetopSunExposure {
             //There are args
             INPUT_FILE = args[0];
             OUTPUT_FILE = args[1];
+        }
+        else if (args.length == 3){
+            //Extra arg for testing - specify threshold
+            INPUT_FILE = args[0];
+            OUTPUT_FILE = args[1];
+            REP = Integer.parseInt(args[2]);
+        }
+        else if(args.length == 4){
+            INPUT_FILE = args[0];
+            OUTPUT_FILE = args[1];
+            REP = Integer.parseInt(args[2]);
+            THRESHOLD = Integer.parseInt(args[3]);
         }
         //If no args, use default params as defined above
         
@@ -69,7 +83,7 @@ public class TreetopSunExposure {
                 valCount ++;
             }
         }
-        System.out.println("Read terrain values!");
+        System.out.println("Read terrain values!\n");
         
         //Define size of trees array
         int treesSize = Integer.parseInt(br.readLine());
@@ -89,7 +103,7 @@ public class TreetopSunExposure {
             //Pos
             trees[i][4] = (float)i;
         }
-        
+        System.out.println("Read tree values!\n");
         //System.out.println("Trees: " + trees.length);
         
         /*
@@ -118,10 +132,11 @@ public class TreetopSunExposure {
         Total tree x
         Total tree y...
         */
-        System.out.println("Started printing...");
+        System.out.println("Started writing...");
         PrintWriter pw = new PrintWriter(new FileWriter(OUTPUT_FILE));
         pw.println("" + total/(trees.length));
-        System.out.println("Total: " + (double)total);
+       
+        //System.out.println("Total: " + (double)total);
         pw.println("" + trees.length);
         
         for (int i = 0; i < trees.length; i++) 
@@ -129,7 +144,7 @@ public class TreetopSunExposure {
             pw.println(trees[i][3]);
         }
         pw.close();
-        System.out.println("Finished printing!");
+        System.out.println("Finished writing!");
     }
     
     public static void setTotal(int index, Float total){
@@ -137,14 +152,15 @@ public class TreetopSunExposure {
     }
     
     public static void startTimer(){
-        System.out.println("Started Timing...");
+        System.out.println("Started timing...");
         time = System.currentTimeMillis();
     }
     
     public static void stopTimer(){
         Long currentTime = System.currentTimeMillis();
-        System.out.println("Stopped Timing!");
-        System.out.println("Total Runtime:\t\t" + (currentTime - time) + "ms");
+        System.out.println("Stopped timing!\n");
+        System.out.println("Total parallel runtime:\t\t" + (currentTime - time) + "ms\n");
+       
     }
     
     
