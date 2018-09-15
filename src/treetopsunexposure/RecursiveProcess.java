@@ -17,8 +17,8 @@ import java.util.concurrent.RecursiveAction;
 public class RecursiveProcess extends RecursiveAction{
 
     //Defined workload var, threshold for workload cutoff
-    private Float[][] workload;
-    private static final int THRESHOLD = 10;
+    protected Float[][] workload;
+    
    
     //Constructor for method
     public RecursiveProcess(Float[][] workload){
@@ -28,7 +28,7 @@ public class RecursiveProcess extends RecursiveAction{
     @Override
     protected void compute() {
         // Check threshold
-        if (workload.length > THRESHOLD) 
+        if (workload.length > TreetopSunExposure.THRESHOLD) 
         {
             //Split
             ForkJoinTask.invokeAll(splitTasks());
@@ -96,16 +96,18 @@ public class RecursiveProcess extends RecursiveAction{
                     if (x < TreetopSunExposure.terrainX && y < TreetopSunExposure.terrainY) 
                     {
                         //Add to average
-                        
                         total += TreetopSunExposure.terrain[x][y]; 
                         //Incriment area totals
                         area ++;
   
                     } 
+                    else{
+                        //System.out.println("OUT OF BOUNDS X: " + x + "\t\tY: " + y);
+                    }
                 }  
             }
             //Calculate, set average
-            TreetopSunExposure.totalAverages += total/area;
+            TreetopSunExposure.total += total;
             TreetopSunExposure.setTotal(Math.round(workload[i][4]), total);   
         }
         
