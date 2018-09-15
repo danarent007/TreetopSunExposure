@@ -30,11 +30,22 @@ public class TreetopSunExposure {
     static int terrainX;
     static int terrainY;
     static final ForkJoinPool forkJoinPool = new ForkJoinPool();
-    static Float totalAverages = 0.00000f;
+    static Float total = 0.00000f;
+    protected static long time;
     
     
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
+        //Check for command line args
+        if (args.length ==2) 
+        {
+            //There are args
+            INPUT_FILE = args[0];
+            OUTPUT_FILE = args[1];
+        }
+        //If no args, use default params as defined above
+        
+        
         //Read setup params
         BufferedReader br = new BufferedReader(new FileReader(INPUT_FILE));
         String[] tmp = br.readLine().split(" ");
@@ -42,8 +53,8 @@ public class TreetopSunExposure {
  
         terrainX = terrainSize[0];
         terrainY = terrainSize[1];
-        System.out.println("Terrain X: " + terrainX);
-        System.out.println("Terrain Y: " + terrainY);
+        //System.out.println("Terrain X: " + terrainX);
+        //System.out.println("Terrain Y: " + terrainY);
 
         
         //Define size of Terrain array
@@ -79,7 +90,7 @@ public class TreetopSunExposure {
             trees[i][4] = (float)i;
         }
         
-        System.out.println("Trees: " + trees.length);
+        //System.out.println("Trees: " + trees.length);
         
         /*
         System.out.println("Test Tree:" + trees[60][0]);
@@ -94,12 +105,11 @@ public class TreetopSunExposure {
         */
         
         //Start parallel processing
-        
+        startTimer();
         forkJoinPool.invoke(new RecursiveProcess(trees));
+        stopTimer();
         
-        System.out.println("Done parallel processing!");
-        
-        System.out.println("Average: " + totalAverages/trees.length);
+        //System.out.println("Average: " + total/trees.length);
         
         //Write to file
         /* Format:
@@ -110,8 +120,8 @@ public class TreetopSunExposure {
         */
         System.out.println("Started printing...");
         PrintWriter pw = new PrintWriter(new FileWriter(OUTPUT_FILE));
-        System.out.println("" + totalAverages);
-        pw.println("" + totalAverages/trees.length);
+        pw.println("" + total/(trees.length));
+        System.out.println("Total: " + (double)total);
         pw.println("" + trees.length);
         
         for (int i = 0; i < trees.length; i++) 
@@ -124,6 +134,17 @@ public class TreetopSunExposure {
     
     public static void setTotal(int index, Float total){
         trees[index][3] = total;
+    }
+    
+    public static void startTimer(){
+        System.out.println("Started Timing...");
+        time = System.currentTimeMillis();
+    }
+    
+    public static void stopTimer(){
+        Long currentTime = System.currentTimeMillis();
+        System.out.println("Stopped Timing!");
+        System.out.println("Total Runtime:\t\t" + (currentTime - time) + "ms");
     }
     
     
