@@ -168,12 +168,8 @@ public class TreetopSunExposure {
         Total tree y...
         */
         //Get average
-        Float a = 0f;
-        for (int i = 0; i < trees.length; i++) 
-        {
-            a+= trees[0][3];
-        }
-        System.out.println("EVG: " + a/trees.length);
+
+        
         
         System.out.println("Started writing...");
         PrintWriter pw = new PrintWriter(new FileWriter(OUTPUT_FILE));
@@ -203,7 +199,7 @@ public class TreetopSunExposure {
     public static void stopTimer(){
         Long currentTime = System.currentTimeMillis();
         System.out.println("Stopped timing!\n");
-        System.out.println("Total parallel runtime:\t\t" + (currentTime - time) + "ms\n"); 
+        System.out.println("Average parallel runtime:\t\t" + (currentTime - time) + "ms\n"); 
     }
     
     public static void startLoggingTimer(){
