@@ -85,24 +85,27 @@ public class RecursiveProcess extends RecursiveAction{
         {
             total = (float)0;
             //Value for counting additions
-            int area = 0;
+            //int area = 0;
             //Get integer values from current tree
             int startX = Math.round(workload[i][0]);
             int startY = Math.round(workload[i][1]);
             int extent = Math.round(workload[i][2]);
             
             //Add all Floats from TreetopSunExposure.terrain
-            for (int x = startX; x < startX + extent; x++) {
-                for (int y = startY; y < startY + extent; y++) {
+            for (int x = startX; x < startX + extent; x++) 
+            {
+                for (int y = startY; y < startY + extent; y++) 
+                {
                     //Check if within bounds before referencing null arr
                     if (x < TreetopSunExposure.terrainX && y < TreetopSunExposure.terrainY) 
                     {
                         //Add to average
                         total += TreetopSunExposure.terrain[x][y]; 
                         //Incriment area totals
-                        area ++;
+                        //area ++;
                     } 
-                    else{
+                    else
+                    {
                         //System.out.println("OUT OF BOUNDS X: " + x + "\t\tY: " + y);
                     }
                 }  

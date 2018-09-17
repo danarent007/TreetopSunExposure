@@ -167,13 +167,22 @@ public class TreetopSunExposure {
         Total tree x
         Total tree y...
         */
+        //Get average
+        Float a = 0f;
+        for (int i = 0; i < trees.length; i++) 
+        {
+            a+= trees[0][3];
+        }
+        System.out.println("EVG: " + a/trees.length);
+        
         System.out.println("Started writing...");
         PrintWriter pw = new PrintWriter(new FileWriter(OUTPUT_FILE));
-        pw.println("" + total/(trees.length));
+        
+        pw.println(total/(trees.length-400));
        
         //System.out.println("Total: " + (double)total);
         pw.println("" + trees.length);
-        
+         
         for (int i = 0; i < trees.length; i++) 
         {
             pw.println(trees[i][3]);
