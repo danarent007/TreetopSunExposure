@@ -30,14 +30,20 @@ public class TreetopSunExposure {
     protected static int terrainX;
     protected static int terrainY;
     protected static final ForkJoinPool forkJoinPool = new ForkJoinPool();
-    protected static Float total = 0.00000f;
+    protected static Float total =(float)0;
     protected static long time;
     protected static int THRESHOLD = 10;
+    protected static int thresholdStart;
+    protected static int thresholdEnd;
+    protected static int thresholdIncr;
     protected static int REP = 1;
+    protected static boolean TESTING = false;
     
     
     
     public static void main(String[] args) throws FileNotFoundException, IOException {
+        //Open testing log file.
+        
         //Check for command line args
         if (args.length ==2) 
         {
@@ -45,18 +51,19 @@ public class TreetopSunExposure {
             INPUT_FILE = args[0];
             OUTPUT_FILE = args[1];
         }
-        else if (args.length == 3){
-            //Extra arg for testing - specify threshold
+        else if (args.length >2){
+            System.out.println("Testing");
+            //Extra args for testing - specify start threshold, end threshold, iterations
+            //<input file><output file><reppetitions><threshold start><threshold end>
             INPUT_FILE = args[0];
             OUTPUT_FILE = args[1];
             REP = Integer.parseInt(args[2]);
+            thresholdStart = Integer.parseInt(args[3]);
+            thresholdEnd = Integer.parseInt(args[4]);
+            thresholdIncr = Integer.parseInt(args[5]);
+            TESTING = true;
         }
-        else if(args.length == 4){
-            INPUT_FILE = args[0];
-            OUTPUT_FILE = args[1];
-            REP = Integer.parseInt(args[2]);
-            THRESHOLD = Integer.parseInt(args[3]);
-        }
+
         //If no args, use default params as defined above
         
         
@@ -119,9 +126,35 @@ public class TreetopSunExposure {
         */
         
         //Start parallel processing
+        if (!TESTING) //Normal, no testing conditions / extras
+        {
         startTimer();
         forkJoinPool.invoke(new RecursiveProcess(trees));
         stopTimer();
+        //TODO timer log
+        }
+        else{
+            System.out.println("Started testing... " + (thresholdEnd-thresholdStart)*REP + " runs to perform.");
+            total = (float)0;
+            //Open log file
+            PrintWriter pw = new PrintWriter(new FileWriter("logfile.txt"));
+            
+            for (int i = thresholdStart; i < thresholdEnd-1; i++) {
+                startLoggingTimer();
+                THRESHOLD = i;
+                for (int j = 0; j < REP; j++) 
+                {
+                    forkJoinPool.invoke(new RecursiveProcess(trees));
+                }
+                
+                long tempTime = stopLoggingTimer();
+                pw.println(tempTime/REP + ";" +i);
+            }
+            pw.close();
+            
+        }
+        
+        
         
         //System.out.println("Average: " + total/trees.length);
         
@@ -159,7 +192,22 @@ public class TreetopSunExposure {
     public static void stopTimer(){
         Long currentTime = System.currentTimeMillis();
         System.out.println("Stopped timing!\n");
-        System.out.println("Total parallel runtime:\t\t" + (currentTime - time) + "ms\n");
+        System.out.println("Total parallel runtime:\t\t" + (currentTime - time) + "ms\n"); 
+    }
+    
+    public static void startLoggingTimer(){
+        //System.out.println("Started logged timing...");
+        time = System.currentTimeMillis();
+    }
+    
+    public static long stopLoggingTimer(){
+        Long currentTime = System.currentTimeMillis();
+        return currentTime - time;
+        
+        //System.out.println("Stopped logged timing!\n");
+        //LOG: time/rep, cutoff
+        
+        
        
     }
     
