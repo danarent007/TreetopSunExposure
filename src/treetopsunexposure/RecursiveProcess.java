@@ -69,8 +69,8 @@ public class RecursiveProcess extends RecursiveAction{
         }
         
         //Add net subtasks to list
-        subtasks.add(new RecursiveProcess(arrayOne));
-        subtasks.add(new RecursiveProcess(arrayTwo));
+        subtasks.add(new RecursiveProcess(arrayOne,THRESHOLD));
+        subtasks.add(new RecursiveProcess(arrayTwo,THRESHOLD));
         
         return subtasks;
     }

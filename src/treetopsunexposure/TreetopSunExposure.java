@@ -54,7 +54,7 @@ public class TreetopSunExposure {
         else if (args.length >2){
             System.out.println("Testing");
             //Extra args for testing - specify start threshold, end threshold, iterations
-            //<input file><output file><reppetitions><threshold start><threshold end>
+            //<input_file><output_file><repetitions><threshold_start><threshold_end><step>
             INPUT_FILE = args[0];
             OUTPUT_FILE = args[1];
             REP = Integer.parseInt(args[2]);
@@ -140,8 +140,10 @@ public class TreetopSunExposure {
             PrintWriter pw = new PrintWriter(new FileWriter("logfile.txt"));
             
             for (int i = thresholdStart; i < thresholdEnd-1; i+= thresholdIncr) {
+                System.gc();
                 startLoggingTimer();
                 THRESHOLD = i;
+                
                 for (int j = 0; j < REP; j++) 
                 {
                     forkJoinPool.invoke(new RecursiveProcess(trees, THRESHOLD));
