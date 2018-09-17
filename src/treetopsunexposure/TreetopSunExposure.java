@@ -129,22 +129,22 @@ public class TreetopSunExposure {
         if (!TESTING) //Normal, no testing conditions / extras
         {
         startTimer();
-        forkJoinPool.invoke(new RecursiveProcess(trees));
+        forkJoinPool.invoke(new RecursiveProcess(trees,THRESHOLD));
         stopTimer();
         //TODO timer log
         }
         else{
-            System.out.println("Started testing... " + (thresholdEnd-thresholdStart)*REP + " runs to perform.");
+            System.out.println("Started testing... " + (thresholdEnd-thresholdStart/thresholdIncr)*REP + " runs to perform.");
             total = (float)0;
             //Open log file
             PrintWriter pw = new PrintWriter(new FileWriter("logfile.txt"));
             
-            for (int i = thresholdStart; i < thresholdEnd-1; i++) {
+            for (int i = thresholdStart; i < thresholdEnd-1; i+= thresholdIncr) {
                 startLoggingTimer();
                 THRESHOLD = i;
                 for (int j = 0; j < REP; j++) 
                 {
-                    forkJoinPool.invoke(new RecursiveProcess(trees));
+                    forkJoinPool.invoke(new RecursiveProcess(trees, THRESHOLD));
                 }
                 
                 long tempTime = stopLoggingTimer();
